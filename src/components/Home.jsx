@@ -1,13 +1,9 @@
 import { useState } from "react";
 import BlogList from "./BlogList";
+import { useEffect } from "react";
 
 const Home = () => {
-  const [blogs, setBlogs] = useState([
-    { title: "The Wonder Of fashion", body: "fashion is ...", author: "Mario", id: 1 },    
-    { title: "What is fashion ?", body: "This is also ...", author: "Luigi", id: 2 },
-    { title: "Why do fashion ?", body: "This is because ...", author: "Lala", id: 3 },
-    {title: "Who is fashion ?", body: "They are people ...", author: "Lala", id: 4}
-  ])
+  const [blogs, setBlogs] = useState(null)
 
   const handleDelete = (id) => {
     const newBlogs = blogs.filter((blog) => 
@@ -16,6 +12,15 @@ const Home = () => {
     setBlogs(newBlogs)
   }
 
+  useEffect(() => {
+    fetch('http://localhost:3000/blogs')
+      .then(res => {
+        res.json()
+      })
+      .then((data) => {
+        setBlogs(data)
+      })
+  }, [])
 
   return (
     <div className="Home">
